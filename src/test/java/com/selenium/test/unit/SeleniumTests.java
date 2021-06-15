@@ -43,7 +43,7 @@ public class SeleniumTests {
 
 	@BeforeClass
 	public static void setup() {
-		System.setProperty("webdriver.chrome.driver", "driver//chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "driver//chromedriver");
 		ChromeOptions coption = new ChromeOptions();
 		coption.addArguments("--headless");
 		driver = new ChromeDriver(coption);
