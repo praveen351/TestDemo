@@ -45,7 +45,7 @@ public class SeleniumTests {
 	public static void setup() {
 		System.setProperty("webdriver.chrome.driver", "driver//chromedriver");
 		ChromeOptions coption = new ChromeOptions();
-		coption.addArguments("--headless");
+		coption.addArguments("--headless","--allowed-ips=172.20.0.1");
 		driver = new ChromeDriver(coption);
 	}
 
