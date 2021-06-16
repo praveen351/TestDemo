@@ -2,9 +2,11 @@ package com.selenium.test.unit;
 
 import static org.junit.Assert.assertEquals;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
@@ -20,43 +22,45 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.selenium.EmplSeleniumTestApplication;
 
-//@SpringBootTest
-//@TestPropertySource(locations = "classpath:application-test.properties")
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = EmplSeleniumTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-test.properties")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTests {
-	@Autowired
-	private Environment env;
 
-	private static String address = "localhost";
-	private static String port = "4200";
-	private static String baseURL = "http://" + address + ":" + port;
+	private static String address;
+	private static String port;
+	private static String baseURL;
 	private static WebDriver driver;
-	private static String nodeURL;
-	private static DesiredCapabilities capability;
-	private static ChromeOptions coption;
 	private static String raddress;
 	private static String rport;
+	private static String nodeURL;
 
-	public SeleniumTests() {
-		address = env.getProperty("address");
-		port = env.getProperty("port");
-		raddress = env.getProperty("raddress");
-		rport = env.getProperty("rport");
+	public SeleniumTests() throws IOException {
+		
 	}
+	
+	public static void initialize() throws IOException {
+		Properties configProps = new Properties();
+		InputStream iStream = new ClassPathResource("application-test.properties").getInputStream();
+		configProps.load(iStream);
 
+		address = configProps.getProperty("address");
+		port = configProps.getProperty("port");
+		raddress = configProps.getProperty("raddress");
+		rport = configProps.getProperty("rport");
+		baseURL = "http://" + address + ":" + port;
+		nodeURL = "http://" + raddress + ":" + rport + "/wd/hub";
+	}
+	
 	@Test
 	public void contextLoads() throws InterruptedException {
 		driver.get(baseURL);
@@ -64,14 +68,14 @@ public class SeleniumTests {
 	}
 
 	@BeforeClass
-	public static void setup() throws MalformedURLException {
-		nodeURL = "http://" + raddress + ":" + rport + "/wd/hub";
+	public static void setup() throws IOException {
+		initialize();
+		
 		System.setProperty("webdriver.chrome.driver", "driver//chromedriver.exe");
-
-		coption = new ChromeOptions();
+		ChromeOptions coption = new ChromeOptions();
 		coption.addArguments("--headless");
 
-		capability = DesiredCapabilities.chrome();
+		DesiredCapabilities capability = DesiredCapabilities.chrome();
 		capability.setBrowserName("chrome");
 		capability.setPlatform(Platform.WINDOWS);
 
