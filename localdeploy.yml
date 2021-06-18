@@ -1,0 +1,9 @@
+---
+- hosts: ansiblelocal
+  tasks:
+  - name: Copy Config Directory
+    copy:
+      src: selenium-server-standalone-3.141.59.jar
+      dest: /home/raja/fallback
+      mode: 0755
+
