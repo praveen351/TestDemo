@@ -2,9 +2,10 @@ package com.selenium.test.unit;
 
 import static org.junit.Assert.assertEquals;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
@@ -14,47 +15,42 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.selenium.EmplSeleniumTestApplication;
 
-//@SpringBootTest
-//@TestPropertySource(locations = "classpath:application-test.properties")
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = EmplSeleniumTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-test.properties")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DemoTest {
-	@Autowired
-	private Environment env;
+public class SeleniumLocalTests {
 
-	private static String address = "localhost";
-	private static String port = "4200";
-	private static String baseURL = "http://" + address + ":" + port;
+	private static String address;
+	private static String port;
+	private static String baseURL;
 	private static WebDriver driver;
-	private static String nodeURL;
-	private static DesiredCapabilities capability;
-	private static ChromeOptions coption;
-	private static String raddress;
-	private static String rport;
 
-	public DemoTest() {
-		address = env.getProperty("address");
-		port = env.getProperty("port");
-		raddress = env.getProperty("raddress");
-		rport = env.getProperty("rport");
+	public SeleniumLocalTests() {
+
+	}
+
+	public static void initialize() throws IOException {
+		Properties configProps = new Properties();
+		InputStream iStream = new ClassPathResource("application-test.properties").getInputStream();
+		configProps.load(iStream);
+		
+		address = configProps.getProperty("address");
+		port = configProps.getProperty("port");
+		
+		baseURL = "http://" + address + ":" + port;
+		
 	}
 
 	@Test
@@ -64,21 +60,14 @@ public class DemoTest {
 	}
 
 	@BeforeClass
-	public static void setup() throws MalformedURLException {
-		nodeURL = "http://" + raddress + ":" + rport + "/wd/hub";
-		System.setProperty("webdriver.chrome.driver", "driver//chromedriver.exe");
+	public static void setup() throws IOException {
+		initialize();
 
-		coption = new ChromeOptions();
+		System.setProperty("webdriver.chrome.driver", "driver//chromedriver.exe");
+		ChromeOptions coption = new ChromeOptions();
 		coption.addArguments("--headless");
 
-		capability = DesiredCapabilities.chrome();
-		capability.setBrowserName("chrome");
-		capability.setPlatform(Platform.WINDOWS);
-
-//		capability.setCapability("chrome.binary", "<Path to binary>");
-		capability.setCapability(ChromeOptions.CAPABILITY, coption);
-
-		driver = new RemoteWebDriver(new URL(nodeURL), capability);
+		driver = new ChromeDriver(coption);
 		driver.manage().deleteAllCookies();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(520, TimeUnit.SECONDS);
@@ -109,7 +98,7 @@ public class DemoTest {
 		chkbutton.get(1).sendKeys("3");
 		Thread.sleep(2000);
 		driver.findElement(By.xpath("//button[@style='background-color: #ccffcc;']")).click();
-		Thread.sleep(15000);
+		Thread.sleep(5000);
 
 		String strUrl = driver.getCurrentUrl();
 
