@@ -1,0 +1,11 @@
+{
+    "surveyid":0,
+    "survey_detail_list":[],
+    "candidate_list":[],
+    "servey_name":"Trackshot",
+    "opening_date_time": null,
+	"closing_date_time": null,
+    "no_of_question":2,
+    "no_of_candidate":2,
+    "status":"ACTIVE"
+}

@@ -1,0 +1,61 @@
+{
+	"surveyid": 1,
+	"survey_detail_list": [
+		{
+			"responseentity": {
+				"response_type_id": 2,
+				"response_type": "TEXTBOX",
+				"response_scope": "SINGLE",
+				"status": "ACTIVE"
+			},
+			"survey_question": "What are your favorite technologies ?",
+			"res_pro_val": "DATA",
+			"user_res_scope": "DATA",
+			"status": "ACTIVE",
+			"survey_detail_id": 1
+		},
+		{
+			"responseentity": {
+				"response_type_id": 2,
+				"response_type": "TEXTBOX",
+				"response_scope": "SINGLE",
+				"status": "ACTIVE"
+			},
+			"survey_question": "How many Experience you have in your IT Job ?",
+			"res_pro_val": "DATA",
+			"user_res_scope": "DATA",
+			"status": "ACTIVE",
+			"survey_detail_id": 2
+		}
+	],
+	"candidate_list": [
+		{
+			"candidate_id": "0",
+			"candidate_response_list": [],
+			"candidate_mail_list": [],
+			"candidate_name": "Praveen",
+			"candidate_email": "rajapraveen4321@gmail.com",
+			"response_date": null,
+			"open_time": null,
+			"close_time": null,
+			"status": "ACTIVE"
+		},
+		{
+			"candidate_id": "0",
+			"candidate_response_list": [],
+			"candidate_mail_list": [],
+			"candidate_name": "Naveen",
+			"candidate_email": "nav2504@gmail.com",
+			"response_date": null,
+			"open_time": null,
+			"close_time": null,
+			"status": "ACTIVE"
+		}
+	],
+	"servey_name": "Trackshot",
+	"opening_date_time": null,
+	"closing_date_time": null,
+	"no_of_question": 2,
+	"no_of_candidate": 2,
+	"status": "ACTIVE"
+}

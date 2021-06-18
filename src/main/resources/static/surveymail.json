@@ -1,0 +1,26 @@
+{
+	"selectedCandidate": [
+		{
+			"candidate_id": 1,
+			"candidate_response_list": [],
+			"candidate_mail_list": [],
+			"candidate_name": "Praveen",
+			"candidate_email": "rajapraveen4321@gmail.com",
+			"response_date": null,
+			"open_time": null,
+			"close_time": null,
+			"status": "ACTIVE"
+		},
+		{
+			"candidate_id": 2,
+			"candidate_response_list": [],
+			"candidate_mail_list": [],
+			"candidate_name": "Naveen",
+			"candidate_email": "nav2504@gmail.com",
+			"response_date": null,
+			"open_time": null,
+			"close_time": null,
+			"status": "ACTIVE"
+		}
+	]
+}
