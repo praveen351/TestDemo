@@ -78,7 +78,7 @@ public class SeleniumTests {
 		DesiredCapabilities capability = DesiredCapabilities.chrome();
 		capability.setBrowserName("chrome");
 		capability.setPlatform(Platform.LINUX);
-		capability.setPlatform(Platform.WINDOWS);
+		// capability.setPlatform(Platform.WINDOWS);
 
 //		capability.setCapability("chrome.binary", "<Path to binary>");
 		capability.setCapability(ChromeOptions.CAPABILITY, coption);
