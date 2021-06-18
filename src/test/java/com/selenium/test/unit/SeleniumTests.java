@@ -35,7 +35,7 @@ import com.selenium.EmplSeleniumTestApplication;
 @TestPropertySource(locations = "classpath:application-test.properties")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTests {
-
+	
 	private static String address;
 	private static String port;
 	private static String baseURL;
@@ -77,7 +77,7 @@ public class SeleniumTests {
 
 		DesiredCapabilities capability = DesiredCapabilities.chrome();
 		capability.setBrowserName("chrome");
-		capability.setPlatform(Platform.WINDOWS);
+		capability.setPlatform(Platform.LINUX);
 
 //		capability.setCapability("chrome.binary", "<Path to binary>");
 		capability.setCapability(ChromeOptions.CAPABILITY, coption);
