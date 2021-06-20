@@ -10,7 +10,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.devops.capstone.mailserver.MailServer;
 import com.devops.capstone.model.CandidateEntity;
 import com.devops.capstone.model.CandidateMail;
 import com.devops.capstone.model.apimodel.CandidateMailResponse;
@@ -38,54 +37,18 @@ public class CandidateMailService {
 		List<CandidateEntity> candidate_list = candidate_mail_data.getSelectedCandidate();
 		List<String> candidate_mail = new ArrayList<String>();
 		List<CandidateMailResponse> candidate_mail_list = new ArrayList<CandidateMailResponse>();
-
+		String sent_status = "";
 		for (CandidateEntity candidate_entity : candidate_list) {
-			String sent_status = "";
-//			boolean dataStatus = MailIDValidator.isAddressValid(candidate_entity.getCandidate_email());
-//			if (dataStatus) {
-			if (true) {
-				candidate_mail.add(candidate_entity.getCandidate_email());
-				candidate_mail_list.add(new CandidateMailResponse(candidate_entity.getCandidate_id(),
-						candidate_entity.getCandidate_email()));
-				sent_status = "SUCCESS";
-			} 
-//			else {
-//				sent_status = "FAILURE";
-//			}
+			candidate_mail.add(candidate_entity.getCandidate_email());
+			candidate_mail_list.add(new CandidateMailResponse(candidate_entity.getCandidate_id(),candidate_entity.getCandidate_email()));
+			sent_status = "SUCCESS";	 
 			CandidateMail cand_mail_obj = candidate_mail_repo.save(new CandidateMail(strDate, sent_status, "ACTIVE"));
-			candidate_mail_repo.updateCandidateMail(candidate_entity.getCandidate_id(),
-					cand_mail_obj.getCandidate_mail_id());
-		}
-		int status_chk = 0; 
-//		int status_chk = MailServer.sendFromGMail(MailServer.USER_NAME, MailServer.PASSWORD, candidate_mail,
-//				MailServer.SUBJECT_NAME, MailServer.BODY);
-		if (status_chk == 1) {
-
-		} else if (status_chk == 0) {
-
-		} else {
-
+			candidate_mail_repo.updateCandidateMail(candidate_entity.getCandidate_id(),cand_mail_obj.getCandidate_mail_id());
 		}
 		return candidate_mail_list;
 	}
 
 	public int sendCandidateMailStatus(CandidateEntity candidate) {
-		List<String> candidate_mail = new ArrayList<String>();
-
-		String candmsg = "Congratulation ".concat(candidate.getCandidate_name()).concat(" , \n") + "\n"
-				+ "You had successfully visited the Survey page and your responses are very Good.......\r\n" + "\n"
-				+ "Candidate Details: \n" + "-------------------------------\r\n"
-				+ "Name: ".concat(candidate.getCandidate_name()).concat("\n")
-				+ "Mail ID: ".concat(candidate.getCandidate_email()).concat("\n")
-				+ "Opening Time: ".concat(candidate.getOpen_time()).concat("\n")
-				+ "Closing Time: ".concat(candidate.getClose_time()).concat("\n")
-				+ "Response Date (mm/dd/yyyy): ".concat(candidate.getResponse_date()).concat("\n") + "\n"
-				+ "Thanks for visiting the survey.\r\n" + "\r\n" + "Regards\r\n" + "Survey Team ";
-		String candsubject = "Regarding Survey Confirmation";
-
-		candidate_mail.add(candidate.getCandidate_email());
-
-//		MailServer.sendFromGMail(MailServer.USER_NAME, MailServer.PASSWORD, candidate_mail, candsubject, candmsg);
 		return 1;
 	}
 }
